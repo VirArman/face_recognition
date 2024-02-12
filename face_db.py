@@ -10,7 +10,7 @@ db = fdb(
     path="facedata",
 )
 
-result = db.recognize(img="pics/ani.jpg", include=['name'])
+result = db.recognize(img="pics/arman.jpg", include=['name'])
 print(result)
 if result:
     print(f"Recognized as {result['name']}")
