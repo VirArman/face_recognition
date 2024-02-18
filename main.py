@@ -1,18 +1,42 @@
 #!/usr/bin/env python3
 from facedb import FaceDB as fdb
-
+import cv2 as cv
 import os
 # need to find out how get all faces or other way of comparing of input face with db faces
-os.environ["PINECONE_API_KEY"] = "YOUR_API_KEY"
-os.environ["PINECONE_ENVIRONMENT"] = "YOUR_ENVIRONMENT_NAME"
 
 db = fdb(
     path="facedata",
 )
 
-result = db.recognize(img="pics/arman.jpg", include=['name'])
-print(result)
-if result:
-    print(f"Recognized as {result['name']}")
-else:
-    print("Unknown face")
+
+def face_recognition():
+    video_capture = cv.VideoCapture(0)
+    counter = 0
+    while True:
+        result, video_frame = video_capture.read()  # read frames from the video
+        if result is False:
+            break 
+        
+        recognized = db.recognize(img=video_frame, include=['name'])
+        font = cv.FONT_HERSHEY_SIMPLEX
+        if recognized:
+            cv.putText(video_frame,recognized['name'],(10,500), font, 2,(255,255,255),2,cv.LINE_AA)
+        else:
+            cv.putText(video_frame,"Unknown Face",(10,500), font, 2,(255,255,255),2,cv.LINE_AA)
+
+        if cv.waitKey(1) & 0xFF == ord("q"):
+            break
+
+        cv.imshow(
+            "My Face Recognition Project", video_frame
+        )  
+    video_capture.release()
+    cv.destroyAllWindows()
+    return video_frame
+
+def main():
+    face_recognition()
+
+
+if __name__ == "__main__":
+    main()

@@ -46,7 +46,7 @@ def face_detection():
 
 def main():
     name = input("please insert name of person from image : ")
-    print("Whold you like to add existing photo (insert 1) or make a new one (insert 2)?")
+    print("Would you like to add existing photo (insert 1) or make a new one (insert 2)?")
     answer = input("insert 1 or 2 : ")
     if answer == "1":
         path = input("Please insert path to existing photo ")
