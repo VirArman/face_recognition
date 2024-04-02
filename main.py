@@ -17,26 +17,27 @@ def face_recognition():
         if result is False:
             break 
         
-        recognized = db.recognize(img=video_frame, include=['name'])
+        if counter % 10 == 0:
+            recognized = db.recognize(img=video_frame, include=['name'])
         font = cv.FONT_HERSHEY_SIMPLEX
         if recognized:
-            cv.putText(video_frame,recognized['name'],(10,500), font, 2,(255,255,255),2,cv.LINE_AA)
+            cv.putText(video_frame,recognized['name'],(10,450), font, 2,(0,255,0),2,cv.LINE_AA)
         else:
-            cv.putText(video_frame,"Unknown Face",(10,500), font, 2,(255,255,255),2,cv.LINE_AA)
+            cv.putText(video_frame,"Unknown Face",(10,450), font, 2,(0,0,255),2,cv.LINE_AA)
 
         if cv.waitKey(1) & 0xFF == ord("q"):
             break
 
         cv.imshow(
             "My Face Recognition Project", video_frame
-        )  
+        )
+        counter += 1
     video_capture.release()
     cv.destroyAllWindows()
     return video_frame
 
 def main():
     face_recognition()
-
 
 if __name__ == "__main__":
     main()
